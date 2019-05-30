@@ -56,42 +56,38 @@ void process_input(struct context *ctx)
     SDL_Event event;
 
     while (SDL_PollEvent(&event)) {
-        printf("%d\n", event.key.keysym.sym);
+        //printf("%d\n", event.key.keysym.sym);
         //printf("%u\n", event.key.type);
-        printf("%d\n", SDLK_UP);
-//        switch (event.key.keysym.sym)
-//        {
-//            case :
-//        }
-//        switch (event.key.keysym.sym)
-//        {
-//            case SDLK_UP:
-//                if (event.key.type == SDL_KEYDOWN)
-//                    ctx->active_state |= UP_PRESSED;
-//                else if (event.key.type == SDL_KEYUP)
-//                    ctx->active_state ^= UP_PRESSED;
-//                break;
-//            case SDLK_DOWN:
-//                if (event.key.type == SDL_KEYDOWN)
-//                    ctx->active_state |= DOWN_PRESSED;
-//                else if (event.key.type == SDL_KEYUP)
-//                    ctx->active_state ^= DOWN_PRESSED;
-//                break;
-//            case SDLK_LEFT:
-//                if (event.key.type == SDL_KEYDOWN)
-//                    ctx->active_state |= LEFT_PRESSED;
-//                else if (event.key.type == SDL_KEYUP)
-//                    ctx->active_state ^= LEFT_PRESSED;
-//                break;
-//            case SDLK_RIGHT:
-//                if (event.key.type == SDL_KEYDOWN)
-//                    ctx->active_state |= RIGHT_PRESSED;
-//                else if (event.key.type == SDL_KEYUP)
-//                    ctx->active_state ^= RIGHT_PRESSED;
-//                break;
-//            default:
-//                break;
-//        }
+        //printf("%d\n", SDLK_UP);
+        switch (event.key.keysym.sym)
+        {
+            case SDLK_UP:
+                if (event.key.type == SDL_KEYDOWN)
+                    ctx->active_state = UP_PRESSED;
+                else if (event.key.type == SDL_KEYUP)
+                    ctx->active_state = UP_PRESSED;
+                break;
+            case SDLK_DOWN:
+                if (event.key.type == SDL_KEYDOWN)
+                    ctx->active_state = DOWN_PRESSED;
+                else if (event.key.type == SDL_KEYUP)
+                    ctx->active_state = DOWN_PRESSED;
+                break;
+            case SDLK_LEFT:
+                if (event.key.type == SDL_KEYDOWN)
+                    ctx->active_state = LEFT_PRESSED;
+                else if (event.key.type == SDL_KEYUP)
+                    ctx->active_state = LEFT_PRESSED;
+                break;
+            case SDLK_RIGHT:
+                if (event.key.type == SDL_KEYDOWN)
+                    ctx->active_state = RIGHT_PRESSED;
+                else if (event.key.type == SDL_KEYUP)
+                    ctx->active_state = RIGHT_PRESSED;
+                break;
+            default:
+                break;
+        }
     }
 
     ctx->owl_vy = 0;
@@ -117,9 +113,11 @@ void loop_handler(void *arg)
      context *ctx = static_cast<context*>(arg);
      SDL_SetRenderDrawColor(ctx->renderer, 255, 255, 255, 255);
      process_input(ctx);
+     ctx->active_state = NOTHING_PRESSED;
      SDL_RenderClear(ctx->renderer);
      for (int i = 0; i < 15000; ++i) {
-         ctx->cars[i].x += 1;
+         ctx->cars[i].x += ctx->owl_vx;
+         ctx->cars[i].y += ctx->owl_vy;
          SDL_SetRenderDrawColor(ctx->renderer, 0, 0, 255, 255);
          SDL_RenderFillRect(ctx->renderer, &ctx->cars[i]);
      }
