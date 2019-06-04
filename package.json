@@ -1,0 +1,8 @@
+{
+  "name": "wasmcpp",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "cd emsdk || emsdk_env.bat || cd ../",
+    "build": "emcc -o hello.html main.cpp -O3 -s WASM=1 --shell-file html_template/shell_minimal.html -s NO_EXIT_RUNTIME=1  -s EXTRA_EXPORTED_RUNTIME_METHODS='[\"ccall\"]'"
+  }
+}
